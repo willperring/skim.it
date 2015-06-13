@@ -69,7 +69,7 @@ window.minMax = function( intStart ) {
 		for( var i=0; i<lenValue; i++ ) {
 			for( var j=0; j<lenValue; j++ ) {
 
-				// no point swapping the same letter
+				// no point swapping the same position
 				if( i == j ) continue;
 
 				var intSwapped = _swap( intValue, i, j );
