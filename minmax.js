@@ -7,6 +7,10 @@
  */
 window.minMax = function( intStart ) {
 
+	// From an efficiency standpoint redefining the following functions on every execution is 
+	// far from ideal, however the encapsulation of these functions prevents collisions in the
+	// global namespace - something that is essential for code reuseability
+
 	/**
 	 * Replace a character in a string
 	 *
