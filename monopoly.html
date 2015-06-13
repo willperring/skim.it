@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+
+<head>
+	
+	<title>Monopoly Class Structure question</title>
+
+	<style type="text/css">
+		body {
+			font-family: sans-serif;
+			padding:     1em;
+		}
+	</style>
+
+</head>
+<body>
+
+	<h1>Class Structure Example: Monopoly</h1>
+
+	<p><em>Note: I find that the easiest way to start to build up a picture of how a set of classes should operate is to start writing
+	the interfaces. These have been included in the <strong>monopoly/</strong> folder for the sake of completeness. Whilst they are 
+	PHP files, they are merely representitive of the interfaces these classes would have.</em></p>
+	
+	<h2>Main Classes</h2>
+	<p>If we're following proper OOP standards, then we should have a class to represent every type of element within the game. So, 
+	the very first class we would need is just that - <strong>Game</strong>. This class needs to track the number of players, and the
+	spaces on the board. So from there, we can define two more classes - <strong>Player</strong> and <strong>Property</strong>. 
+	<em>(aside: Not all squares on the board are properties, e.g. 'Go' and 'Just parking', etc but these are the exceptions - I feel for
+	clarity these are better referred to as properties. We could define <strong>BoardPosition</strong> as well as (or as a parent class
+	of <strong>Property</strong> but I feel this is arguably too complex for the scope of this question)</em>.</p>
+
+	<p>The <strong>Player</strong> class is reponsible for holding information pertaining to the player - position on the board, funds,
+	properties owned, whether the player is in jail, etc. The <strong>Property</strong> class holds information about the square on 
+	the board - whether it is purchasable, which group it belongs to. This would also need to hold information about the rent of the 
+	square should it be occupied by a player other than the owner once purchased. A pseudo-class for this has not been implemented, 
+	but some kind of <strong>RentMatrix</strong> class, denoting the cost at various stages of development would be appropriate.</p>
+
+	<p>We could also include a <strong>Die</strong> class, although as this is merely a random number generator, this functionality
+	could be built into the <strong>Game</strong> class as a <strong>rollDie()</strong> function.
+
+	<p>Through these classes we now have the potential to start a game, add players, and move round the board purchasing properties</p>
+
+	<h3>Potential tricky aspects:</h3>
+
+	<p>Some of the squares on the board do not pay rent in conventional fashion. For example, the Water Company and Electric Company
+	require a roll of the die, whereas the stations depend on how many of the four are owned by the player.</p>
+
+	<p>Whether conventional properties can be developed depends on if the player owns the complete set. With this in mind, a 
+	<strong>PropertyGroup</strong> class may be appropriate.</p>
+
+	<p>A mechanism for allowing the players to get out of jail needs to be implemented - this normallly involves three attempts at
+	rolling a die (on consecutive turns) before paying a fee to get out</p>
+
+	<p>The game needs to check at each round which players are bankrupt and end when one (or less) remain - infinite loops are fun 
+	for no-one</p>
+
+	<h2>Secondary Classes</h2>
+
+	<p>As well as the cycle of moving around the board collecting properties, we need to implement <strong>CommunityChest</strong>
+	and <strong>Chance</strong> classes to represent the card stacks on the board. These share functionality in all but the 
+	individual cards, so are both derived from an abstract <strong>CardStack</strong> class. This would contain actions such as
+	<strong>shuffle()</strong> and maintain arrays of the cards within them. This, in turn, gives need for a <strong>Card</strong>
+	class <em>(no psuedo class for this exists, see 'tricky aspects' below)</em>
+
+	<h3>Potential Tricky Aspects:</h3>
+
+	<p>The <strong>CommunityChest</strong> and <strong>Chance</strong> <strong>Card</strong> classes have a wide range of effects
+	on the game and the player. Care would need to be taken when building the class to allow it to cover all the neccesary actions
+	as defined within the game. Examples include simple actions, like simply paying an amount of money to the bank or the other 
+	players, or missing a number of turns, through to more complex actions such as paying a premium for repairs on every house or 
+	hotel owned by the player.</p>
+
+</body>
+
+</html>
